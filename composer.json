@@ -1,0 +1,48 @@
+{
+  "name": "digitalastronaut/craft-bouy",
+  "description": "A small monitoring enpoint used in conjunction with the Harbour plugin",
+  "type": "craft-plugin",
+  "license": "proprietary",
+  "support": {
+    "email": "bram@digitalastronaut.be",
+    "issues": "https://github.com/digitalastronaut-be/craft-bouy/issues?state=open",
+    "source": "https://github.com/digitalastronaut-be/craft-bouy",
+    "docs": "https://github.com/digitalastronaut-be/craft-bouy",
+    "rss": "https://github.com/digitalastronaut-be/craft-bouy/releases.atom"
+  },
+  "require": {
+    "php": ">=8.2",
+    "craftcms/cms": "^5.8"
+  },
+  "require-dev": {
+    "craftcms/ecs": "dev-main",
+    "craftcms/phpstan": "dev-main"
+  },
+  "autoload": {
+    "psr-4": {
+      "digitalastronaut\\craftbouy\\": "src/"
+    }
+  },
+  "extra": {
+    "handle": "bouy",
+    "name": "Bouy",
+    "developer": "Digitalastronaut",
+    "documentationUrl": "https://github.com/digitalastronaut-be/craft-bouy",
+    "class": "digitalastronaut\\craftbouy\\Bouy"
+  },
+  "scripts": {
+    "check-cs": "ecs check --ansi",
+    "fix-cs": "ecs check --ansi --fix",
+    "phpstan": "phpstan --memory-limit=1G"
+  },
+  "config": {
+    "sort-packages": true,
+    "platform": {
+      "php": "8.2"
+    },
+    "allow-plugins": {
+      "yiisoft/yii2-composer": true,
+      "craftcms/plugin-installer": true
+    }
+  }
+}

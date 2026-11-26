@@ -1,0 +1,79 @@
+{# @var plugin \digitalastronaut\craftbouy\Bouy #}
+{# @var settings \digitalastronaut\craftbouy\models\Settings #}
+
+{% extends "_layouts/cp.twig" %}
+
+{% import '_includes/forms.twig' as forms %}
+
+{% set fullPageForm = true %}
+{% set title = "Settings"|t('bouy') %}
+
+{% set crumbs = [
+    { label: 'Settings'|t('app'), url: url('settings') },
+    { label: 'Plugins'|t('app'), url: url('settings/plugins') },
+] %}
+
+{% set allowAdminChanges = craft.app.config.general.allowAdminChanges %}
+
+{% block content %}
+    {{ actionInput('bouy/settings/save') }}
+    {{ redirectInput('bouy/settings') }}
+
+    <div class="flex-fields">
+        {{ forms.textField({
+            label: 'Plugin name'|t('bouy'),
+            instructions: 'Overrides the label shown for this plugin in the control panel.'|t('bouy'),
+            id: 'pluginName',
+            name: 'settings[pluginName]',
+            value: settings.pluginName,
+            errors: settings.getErrors('pluginName'),
+            placeholder: plugin.name,
+            disabled: not allowAdminChanges,
+        }) }}
+
+        {{ forms.autosuggestField({
+            label: 'API key'|t('bouy'),
+            instructions: 'The shared secret Harbour must send to pull this site’s status report. Generate one with `php -r "echo bin2hex(random_bytes(32));"` and set it here, or point this at an environment variable.'|t('bouy'),
+            id: 'apiKey',
+            name: 'settings[apiKey]',
+            value: settings.apiKey,
+            errors: settings.getErrors('apiKey'),
+            suggestEnvVars: true,
+            disabled: not allowAdminChanges,
+        }) }}
+
+        {{ forms.autosuggestField({
+            label: 'Harbour URL'|t('bouy'),
+            instructions: 'Base URL of the central Harbour installation to ping when this site hits an unhandled error. Leave blank to disable error pings.'|t('bouy'),
+            id: 'harbourUrl',
+            name: 'settings[harbourUrl]',
+            value: settings.harbourUrl,
+            errors: settings.getErrors('harbourUrl'),
+            placeholder: 'https://harbour.example.com',
+            suggestEnvVars: true,
+            disabled: not allowAdminChanges,
+        }) }}
+
+        {{ forms.autosuggestField({
+            label: 'Harbour API key'|t('bouy'),
+            instructions: 'The shared secret this site sends when pinging Harbour about an error.'|t('bouy'),
+            id: 'harbourApiKey',
+            name: 'settings[harbourApiKey]',
+            value: settings.harbourApiKey,
+            errors: settings.getErrors('harbourApiKey'),
+            suggestEnvVars: true,
+            disabled: not allowAdminChanges,
+        }) }}
+
+        {{ forms.autosuggestField({
+            label: 'Monitor ID'|t('bouy'),
+            instructions: 'This site’s Monitor ID on Harbour — copy it from that monitor’s detail page so its error pings are linked back to it there.'|t('bouy'),
+            id: 'monitorUid',
+            name: 'settings[monitorUid]',
+            value: settings.monitorUid,
+            errors: settings.getErrors('monitorUid'),
+            suggestEnvVars: true,
+            disabled: not allowAdminChanges,
+        }) }}
+    </div>
+{% endblock %}
